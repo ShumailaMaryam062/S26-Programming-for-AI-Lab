@@ -188,10 +188,11 @@ Total moves: 6
 ## ✉️ Contact & Support
 
 For questions or suggestions, please contact:
-- **Email:** shumailamaryam062@gmail.com
+- **Email:** shumailamaryam039@gmail.com
 - **GitHub:** [ShumailaMaryam062](https://github.com/ShumailaMaryam062)
 
 ---
 
 **Last Updated:** February 2026
 **Version:** 1.0
+

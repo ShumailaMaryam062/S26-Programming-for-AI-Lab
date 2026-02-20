@@ -256,7 +256,7 @@ BACKTRACK: Try different placement in Row 2...
 ## ✉️ Contact & Support
 
 For questions or suggestions:
-- **Email:** shumailamaryam062@gmail.com
+- **Email:** shumailamaryam039@gmail.com
 - **GitHub:** [ShumailaMaryam062](https://github.com/ShumailaMaryam062)
 
 ---
@@ -264,3 +264,4 @@ For questions or suggestions:
 **Last Updated:** February 2026  
 **Version:** 1.0  
 **Status:** Complete ✓
+

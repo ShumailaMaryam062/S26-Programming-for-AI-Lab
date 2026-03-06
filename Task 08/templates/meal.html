@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiceSphere - {{ meal.strMeal }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2><i class="fas fa-pepper-hot"></i> SpiceSphere</h2>
+            <p>Recipe Explorer</p>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Menu</div>
+                <a href="/" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/search" class="nav-item">
+                    <i class="fas fa-search"></i> Search Recipes
+                </a>
+                <a href="/categories" class="nav-item">
+                    <i class="fas fa-th-large"></i> Categories
+                </a>
+                <a href="/letter/a" class="nav-item">
+                    <i class="fas fa-font"></i> Browse A-Z
+                </a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Tools</div>
+                <a href="/shopping-list" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i> Shopping List
+                </a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Popular</div>
+                <a href="/category/Chicken" class="nav-item">
+                    <i class="fas fa-drumstick-bite"></i> Chicken
+                </a>
+                <a href="/category/Seafood" class="nav-item">
+                    <i class="fas fa-fish"></i> Seafood
+                </a>
+                <a href="/category/Dessert" class="nav-item">
+                    <i class="fas fa-ice-cream"></i> Desserts
+                </a>
+                <a href="/category/Vegetarian" class="nav-item">
+                    <i class="fas fa-leaf"></i> Vegetarian
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <p>SpiceSphere by Shumaila Maryam</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="topbar-title">
+                <h1><i class="fas fa-utensils"></i> Recipe Details</h1>
+                <p>Complete recipe information</p>
+            </div>
+            <form class="topbar-search" action="/search" method="GET">
+                <input type="text" name="food" placeholder="Search recipes...">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+
+            <div class="back-link">
+                <a href="/categories"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if meal %}
+            <div class="meal-detail" data-meal-id="{{ meal.idMeal }}">
+                
+                <!-- MEAL HEADER -->
+                <div class="meal-header">
+                    <div class="meal-img-container">
+                        <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" class="meal-img">
+                        <div class="meal-meta-quick">
+                            <div class="meta-item">
+                                <i class="fas fa-knife"></i>
+                                <span class="meta-label">Prep Time</span>
+                                <span class="meta-value">{{ prep_time }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-fire"></i>
+                                <span class="meta-label">Cook Time</span>
+                                <span class="meta-value">{{ cooking_time }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-list-ul"></i>
+                                <span class="meta-label">Ingredients</span>
+                                <span class="meta-value">{{ ingredients|length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="meal-info">
+                        <h1 class="meal-title">{{ meal.strMeal }}</h1>
+                        
+                        <!-- RATING SYSTEM -->
+                        <div class="rating-section">
+                            <span class="rating-label">Rate this recipe:</span>
+                            <div class="rating-stars">
+                                {% for i in range(1, 6) %}
+                                <i class="fas fa-star rating-star" onclick="setRating({{ i }})"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="meal-tags">
+                            {% if meal.strCategory %}
+                            <span class="meal-tag tag-category">
+                                <i class="fas fa-folder"></i> {{ meal.strCategory }}
+                            </span>
+                            {% endif %}
+                            {% if meal.strArea %}
+                            <span class="meal-tag tag-area">
+                                <i class="fas fa-globe"></i> {{ meal.strArea }}
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- ACTION BUTTONS -->
+                        <div class="meal-actions">
+                            <button id="favBtn" class="action-btn btn-favorite" onclick="toggleFavorite('{{ meal.idMeal }}', '{{ meal.strMeal }}')">
+                                <i class="fas fa-heart"></i> Add to Favorites
+                            </button>
+                            <button class="action-btn btn-print" onclick="printRecipe()">
+                                <i class="fas fa-print"></i> Print Recipe
+                            </button>
+                            <button class="action-btn btn-shopping" onclick="addToShoppingList(); setTimeout(() => window.location.href='/shopping-list', 800)">
+                                <i class="fas fa-shopping-cart"></i> Shopping List
+                            </button>
+                            {% if meal.strYoutube %}
+                            <a href="{{ meal.strYoutube }}" target="_blank" class="action-btn btn-youtube">
+                                <i class="fab fa-youtube"></i> Watch Video
+                            </a>
+                            {% endif %}
+                            {% if meal.strSource %}
+                            <a href="{{ meal.strSource }}" target="_blank" class="action-btn btn-source">
+                                <i class="fas fa-external-link-alt"></i> Original Recipe
+                            </a>
+                            {% endif %}
+                            {% if meal.strCategory %}
+                            <a href="/category/{{ meal.strCategory }}" class="action-btn btn-category">
+                                <i class="fas fa-th-large"></i> More {{ meal.strCategory }}
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MEAL BODY - CONTENT LAYOUT -->
+                <div class="meal-content">
+                    
+                    <!-- LEFT: INGREDIENTS -->
+                    <aside class="meal-sidebar">
+                        <div class="meal-card ingredients-card">
+                            <div class="ingredients-header">
+                                <h2><i class="fas fa-list"></i> Ingredients</h2>
+                                <div class="servings-control">
+                                    <button onclick="adjustServings(-1)"><i class="fas fa-minus"></i></button>
+                                    <span id="servingCount">1</span>
+                                    <button onclick="adjustServings(1)"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="ingredients-counter">{{ ingredients|length }} items</div>
+                            <ul class="ingredients-list">
+                                {% for ing in ingredients %}
+                                <li class="ingredient-item">
+                                    <span class="ingredient-dot"></span>
+                                    <div class="ingredient-content">
+                                        <span class="ingredient-measure">{{ ing.measure if ing.measure else "As needed" }}</span>
+                                        <span class="ingredient-name">{{ ing.ingredient }}</span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- RIGHT: INSTRUCTIONS -->
+                    <main class="meal-main">
+                        <div class="meal-card instructions-card">
+                            <h2><i class="fas fa-clipboard-list"></i> Step-by-Step Instructions</h2>
+                            <div class="instructions-text">
+                                {% set steps = meal.strInstructions.split('.') %}
+                                {% for step in steps %}
+                                    {% if step.strip() %}
+                                    <div class="instruction-step">
+                                        <div class="step-number">{{ loop.index }}</div>
+                                        <p class="step-text">{{ step.strip() }}</p>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </main>
+
+                </div>
+                    </div>
+
+                </div>
+
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <h3>Recipe not found</h3>
+                <p>The requested recipe does not exist</p>
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('open');
+            const icon = button.querySelector('.dropdown-icon');
+            icon.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    </script>
+</body>
+</html>
+</html>

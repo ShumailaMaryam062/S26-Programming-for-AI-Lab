@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiceSphere - Browse A-Z</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2><i class="fas fa-pepper-hot"></i> SpiceSphere</h2>
+            <p>Recipe Explorer</p>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Menu</div>
+                <a href="/" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/search" class="nav-item">
+                    <i class="fas fa-search"></i> Search Recipes
+                </a>
+                <a href="/categories" class="nav-item">
+                    <i class="fas fa-th-large"></i> Categories
+                </a>
+                <a href="/letter/a" class="nav-item active">
+                    <i class="fas fa-font"></i> Browse A-Z
+                </a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Popular</div>
+                <a href="/category/Chicken" class="nav-item">
+                    <i class="fas fa-drumstick-bite"></i> Chicken
+                </a>
+                <a href="/category/Seafood" class="nav-item">
+                    <i class="fas fa-fish"></i> Seafood
+                </a>
+                <a href="/category/Dessert" class="nav-item">
+                    <i class="fas fa-ice-cream"></i> Desserts
+                </a>
+                <a href="/category/Vegetarian" class="nav-item">
+                    <i class="fas fa-leaf"></i> Vegetarian
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <p>SpiceSphere by Shumaila Maryam</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="topbar-title">
+                <h1><i class="fas fa-font"></i> Browse A-Z</h1>
+                <p>Explore recipes alphabetically</p>
+            </div>
+            <form class="topbar-search" action="/search" method="GET">
+                <input type="text" name="food" placeholder="Search recipes...">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+
+            <!-- Letter Navigation -->
+            <div class="letter-nav">
+                {% for l in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}
+                <a href="/letter/{{ l.lower() }}" class="{{ 'active' if letter == l else '' }}">{{ l }}</a>
+                {% endfor %}
+            </div>
+
+            {% if error %}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            <div class="section-header">
+                <div>
+                    <h2><i class="fas fa-list"></i> Recipes starting with "{{ letter }}"</h2>
+                    <p>{{ meals|length }} recipes found</p>
+                </div>
+            </div>
+
+            {% if meals %}
+            <div class="meals-list">
+                {% for meal in meals %}
+                <a href="/meal/{{ meal.idMeal }}" class="meal-row">
+                    <div class="meal-row-img">
+                        <img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}">
+                    </div>
+                    <div class="meal-row-info">
+                        <h3>{{ meal.strMeal }}</h3>
+                        {% if meal.strCategory %}
+                        <p><i class="fas fa-folder"></i> {{ meal.strCategory }} {% if meal.strArea %} | <i class="fas fa-globe"></i> {{ meal.strArea }}{% endif %}</p>
+                        {% endif %}
+                    </div>
+                    <div class="meal-row-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <h3>No recipes found</h3>
+                <p>No recipes start with the letter "{{ letter }}"</p>
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <script>
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('open');
+            const icon = button.querySelector('.dropdown-icon');
+            icon.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    </script>
+
+</body>
+</html>

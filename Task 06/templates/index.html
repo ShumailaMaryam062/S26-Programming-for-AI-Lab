@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Herd Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Animal Herd Detection</h1>
+            <p class="subtitle">AI-powered detection of animal groups in images & videos with real-time GPS location mapping</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-box">
+                    <h2>Upload Media</h2>
+                    <form id="uploadForm">
+                        <div class="form-group">
+                            <label for="mediaFile"><i class="fa-solid fa-cloud-arrow-up"></i> Select Image or Video</label>
+                            <input type="file" id="mediaFile" name="file" accept="image/*,video/*" required>
+                            <small><i class="fa-regular fa-file"></i> Supported: PNG, JPG, JPEG, GIF, MP4, AVI, MOV (Max 500MB)</small>
+                        </div>
+
+                        <div class="location-section">
+                            <h3><i class="fa-solid fa-location-dot"></i> Detection Location</h3>
+                            
+                            <div class="location-mode">
+                                <label class="mode-option">
+                                    <input type="radio" name="locationMode" value="auto" id="modeAuto">
+                                    <span class="mode-label"><i class="fa-solid fa-satellite"></i> Auto GPS</span>
+                                </label>
+                                <label class="mode-option">
+                                    <input type="radio" name="locationMode" value="manual" id="modeManual" checked>
+                                    <span class="mode-label"><i class="fa-solid fa-pen-to-square"></i> Manual Entry</span>
+                                </label>
+                            </div>
+
+                            <div id="manualLocationInput" class="form-row">
+                                <div class="form-group">
+                                    <label for="latitude"><i class="fa-solid fa-arrows-up-down"></i> Latitude</label>
+                                    <input type="number" id="latitude" name="latitude" value="40.7128" step="0.0001" placeholder="e.g. 40.7128">
+                                </div>
+                                <div class="form-group">
+                                    <label for="longitude"><i class="fa-solid fa-arrows-left-right"></i> Longitude</label>
+                                    <input type="number" id="longitude" name="longitude" value="-74.0060" step="0.0001" placeholder="e.g. -74.0060">
+                                </div>
+                            </div>
+
+                            <div id="autoLocationInfo" style="display: none;">
+                                <p id="locationStatus">
+                                    <i class="fa-solid fa-tower-broadcast"></i> Your GPS location will be captured automatically on submit
+                                </p>
+                            </div>
+
+                            <button type="button" id="getLocationBtn" class="secondary-btn" style="display: none;">
+                                <i class="fa-solid fa-location-crosshairs"></i> Use My Current Location
+                            </button>
+                        </div>
+
+                        <button type="submit" class="primary-btn">
+                            <i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Media
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <h2>Detection Results</h2>
+                    
+                    <div class="results-info">
+                        <div class="info-card">
+                            <h3><i class="fa-solid fa-paw"></i> Animals Found</h3>
+                            <p class="big-number" id="animalCount">0</p>
+                        </div>
+                        <div class="info-card">
+                            <h3><i class="fa-solid fa-crown"></i> Dominant Species</h3>
+                            <p id="dominantSpecies">--</p>
+                        </div>
+                        <div class="info-card">
+                            <h3><i class="fa-solid fa-users"></i> Herd Density</h3>
+                            <p id="herdDensity">--</p>
+                        </div>
+                        <div class="info-card">
+                            <h3><i class="fa-solid fa-chart-simple"></i> Confidence</h3>
+                            <p class="big-number" id="confidenceScore">--</p>
+                        </div>
+                        <div class="info-card">
+                            <h3><i class="fa-solid fa-microchip"></i> Method</h3>
+                            <p id="detectionMethod">--</p>
+                        </div>
+                        <div class="info-card">
+                            <h3><i class="fa-regular fa-clock"></i> Time</h3>
+                            <p id="detectionTime">--</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Species Breakdown Section -->
+                    <div class="species-breakdown" id="speciesSection" style="display: none;">
+                        <h3><i class="fa-solid fa-list-check"></i> Species Breakdown</h3>
+                        <div class="species-grid" id="speciesGrid"></div>
+                    </div>
+
+                    <div class="media-display">
+                        <div id="imageContainer" style="display: none;">
+                            <h3><i class="fa-regular fa-image"></i> Processed Image</h3>
+                            <img id="resultImage" src="" alt="Detection Result">
+                            <a id="downloadImageBtn" class="download-btn" download>
+                                <i class="fa-solid fa-download"></i> Download Image
+                            </a>
+                        </div>
+                        <div id="videoContainer" style="display: none;">
+                            <h3><i class="fa-solid fa-clapperboard"></i> Processed Video</h3>
+                            <video id="resultVideo" controls>
+                                Your browser does not support the video tag.
+                            </video>
+                            <a id="downloadVideoBtn" class="download-btn" download>
+                                <i class="fa-solid fa-download"></i> Download Video
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Location Info -->
+                    <div class="location-info" id="locationInfo">
+                        <h3><i class="fa-solid fa-location-dot"></i> GPS Coordinates</h3>
+                        <p><strong>Latitude:</strong> <span id="resultLat">--</span></p>
+                        <p><strong>Longitude:</strong> <span id="resultLng">--</span></p>
+                    </div>
+
+                    <div class="map-section">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Herd Location Map</h3>
+                        <div id="mapContainer"></div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="primary-btn" onclick="location.reload()">
+                            <i class="fa-solid fa-rotate-right"></i> Analyze Another Media
+                        </button>
+                        <button type="button" class="secondary-btn" onclick="exportResults()">
+                            <i class="fa-solid fa-file-export"></i> Export Report
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <h2>System Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <h3>Total Processed</h3>
+                        <p id="statTotal">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-regular fa-images"></i>
+                        <h3>Images</h3>
+                        <p id="statImages">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-video"></i>
+                        <h3>Videos</h3>
+                        <p id="statVideos">0</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p><i class="fa-solid fa-shield-halved"></i> Animal Herd Detection System | Powered by OpenCV + YOLO/Cascade | © 2026</p>
+        </footer>
+    </div>
+
+    <div id="loadingSpinner" class="spinner" style="display: none;">
+        <div class="spinner-content">
+            <div class="spinner-circle"></div>
+            <p><i class="fa-solid fa-brain"></i> AI is analyzing your media...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

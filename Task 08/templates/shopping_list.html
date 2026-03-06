@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiceSphere - Shopping List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2><i class="fas fa-pepper-hot"></i> SpiceSphere</h2>
+            <p>Recipe Explorer</p>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Menu</div>
+                <a href="/" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/search" class="nav-item">
+                    <i class="fas fa-search"></i> Search Recipes
+                </a>
+                <a href="/categories" class="nav-item">
+                    <i class="fas fa-th-large"></i> Categories
+                </a>
+                <a href="/letter/a" class="nav-item">
+                    <i class="fas fa-font"></i> Browse A-Z
+                </a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Tools</div>
+                <a href="/shopping-list" class="nav-item active">
+                    <i class="fas fa-shopping-cart"></i> Shopping List
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <p>SpiceSphere by Shumaila Maryam</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="topbar-title">
+                <h1><i class="fas fa-shopping-cart"></i> Shopping List</h1>
+                <p>Ingredients you need to buy</p>
+            </div>
+            <form class="topbar-search" action="/search" method="GET">
+                <input type="text" name="food" placeholder="Search recipes...">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+
+            <div class="shopping-container">
+                <div class="shopping-header">
+                    <h2><i class="fas fa-list-check"></i> Your Shopping List</h2>
+                    <div class="shopping-actions">
+                        <button class="shopping-btn btn-primary" onclick="printShoppingList()">
+                            <i class="fas fa-print"></i> Print List
+                        </button>
+                        <button class="shopping-btn btn-danger" onclick="clearShoppingList()">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="shopping-stats">
+                    <div class="stat-box">
+                        <i class="fas fa-inbox"></i>
+                        <span id="totalItems">0</span> Items
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="checkedItems">0</span> Checked
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span id="remainingItems">0</span> Remaining
+                    </div>
+                </div>
+
+                <div class="shopping-list-wrapper">
+                    <div id="shoppingListContent" class="shopping-list-content">
+                        <div class="empty-shopping">
+                            <i class="fas fa-cart-plus"></i>
+                            <h3>Your shopping list is empty</h3>
+                            <p>Add ingredients from recipes to get started!</p>
+                            <a href="/search" class="btn-explore">
+                                <i class="fas fa-search"></i> Find Recipes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopping-footer">
+                    <p><i class="fas fa-lightbulb"></i> Tip: Items are saved in your browser. Check items off as you shop!</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        // Load and display shopping list
+        function loadShoppingList() {
+            let shoppingList = JSON.parse(localStorage.getItem('spiceSphere_shopping')) || [];
+            const container = document.getElementById('shoppingListContent');
+            
+            if (shoppingList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-shopping">
+                        <i class="fas fa-cart-plus"></i>
+                        <h3>Your shopping list is empty</h3>
+                        <p>Add ingredients from recipes to get started!</p>
+                        <a href="/search" class="btn-explore">
+                            <i class="fas fa-search"></i> Find Recipes
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<ul class="shopping-items">';
+            
+            shoppingList.forEach((item, idx) => {
+                html += `
+                    <li class="shopping-item ${item.checked ? 'checked' : ''}">
+                        <input type="checkbox" ${item.checked ? 'checked' : ''} 
+                               onchange="toggleItem(${idx})">
+                        <div class="item-details">
+                            <span class="item-measure">${item.measure}</span>
+                            <span class="item-name">${item.name}</span>
+                        </div>
+                        <button class="item-delete" onclick="deleteItem(${idx})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </li>
+                `;
+            });
+            
+            html += '</ul>';
+            container.innerHTML = html;
+            
+            updateStats();
+        }
+
+        // Toggle item checked status
+        function toggleItem(idx) {
+            let shoppingList = JSON.parse(localStorage.getItem('spiceSphere_shopping')) || [];
+            shoppingList[idx].checked = !shoppingList[idx].checked;
+            localStorage.setItem('spiceSphere_shopping', JSON.stringify(shoppingList));
+            loadShoppingList();
+        }
+
+        // Delete item
+        function deleteItem(idx) {
+            let shoppingList = JSON.parse(localStorage.getItem('spiceSphere_shopping')) || [];
+            shoppingList.splice(idx, 1);
+            localStorage.setItem('spiceSphere_shopping', JSON.stringify(shoppingList));
+            loadShoppingList();
+        }
+
+        // Clear all
+        function clearShoppingList() {
+            if (confirm('Are you sure you want to clear the entire shopping list?')) {
+                localStorage.setItem('spiceSphere_shopping', JSON.stringify([]));
+                loadShoppingList();
+                showNotification('Shopping list cleared!', 'success');
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            let shoppingList = JSON.parse(localStorage.getItem('spiceSphere_shopping')) || [];
+            const total = shoppingList.length;
+            const checked = shoppingList.filter(item => item.checked).length;
+            
+            document.getElementById('totalItems').textContent = total;
+            document.getElementById('checkedItems').textContent = checked;
+            document.getElementById('remainingItems').textContent = total - checked;
+        }
+
+        // Print shopping list
+        function printShoppingList() {
+            let shoppingList = JSON.parse(localStorage.getItem('spiceSphere_shopping')) || [];
+            
+            if (shoppingList.length === 0) {
+                alert('Shopping list is empty!');
+                return;
+            }
+            
+            const printWindow = window.open('', '', 'width=600,height=800');
+            
+            let itemsHtml = '<ul>';
+            shoppingList.forEach(item => {
+                itemsHtml += `<li>${item.measure} ${item.name}</li>`;
+            });
+            itemsHtml += '</ul>';
+            
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Shopping List - SpiceSphere</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 40px; }
+                        h1 { color: #FF006E; margin-bottom: 5px; }
+                        p { color: #999; margin-bottom: 30px; }
+                        ul { padding-left: 20px; line-height: 2.2; }
+                        li { margin: 10px 0; }
+                        .footer { margin-top: 40px; color: #999; font-size: 12px; }
+                        @media print { body { padding: 0; } }
+                    </style>
+                </head>
+                <body>
+                    <h1>🛒 Shopping List</h1>
+                    <p>From SpiceSphere - Generated on ${new Date().toLocaleDateString()}</p>
+                    ${itemsHtml}
+                    <div class="footer">
+                        <p>📌 Remember to check items off as you shop!</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(html);
+            printWindow.document.close();
+            setTimeout(() => printWindow.print(), 250);
+        }
+
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', loadShoppingList);
+
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('open');
+            const icon = button.querySelector('.dropdown-icon');
+            icon.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    </script>
+</body>
+</html>

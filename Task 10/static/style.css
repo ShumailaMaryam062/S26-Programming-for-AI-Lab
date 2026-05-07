@@ -1,0 +1,390 @@
+/* ========================================
+   FINDMATE CHATBOT - STYLESHEET
+   Campus Lost & Found Assistant
+   ======================================== */
+
+/* ========== RESET STYLES ========== */
+* {
+    box-sizing: border-box;
+}
+
+/* ========== BODY STYLES ========== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    
+    /* Modern gradient background */
+    background:
+        radial-gradient(circle at top left, rgba(154, 92, 255, 0.45), transparent 34%),
+        linear-gradient(135deg, #05010d 0%, #170729 48%, #090111 100%);
+}
+
+/* ========== PAGE CONTAINER ========== */
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+}
+
+/* ========== APP SHELL LAYOUT ========== */
+.app-shell {
+    width: min(1120px, 100%);
+    height: min(760px, calc(100vh - 56px));
+    min-height: 640px;
+    display: grid;
+    grid-template-columns: 270px minmax(0, 1fr);
+    gap: 20px;
+}
+
+/* ========== SHARED CARD STYLES ========== */
+.sidebar,
+.chat-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+    justify-content: space-between;
+    min-height: 0;
+}
+
+.sidebar-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Brand/Logo Section */
+.brand-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.logo {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #7c3cff, #df6cff);
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: 0 10px 26px rgba(124, 60, 255, 0.36);
+    flex-shrink: 0;
+}
+
+h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+/* Sidebar Blocks */
+.sidebar-block {
+    margin-bottom: 24px;
+}
+
+.side-buttons {
+    display: grid;
+    gap: 10px;
+}
+
+.side-buttons button {
+    min-height: 42px;
+}
+
+/* Safety Note Box */
+.note-box {
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 8px;
+    color: #d7c4ff;
+    background: rgba(0, 0, 0, 0.22);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* ========== CHAT CARD ========== */
+.chat-card {
+    height: 100%;
+    min-height: 0;
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Status Indicator */
+.status {
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: rgba(66, 255, 173, 0.16);
+    color: #8fffd0;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* ========== TYPOGRAPHY ========== */
+.tagline {
+    margin: 0 0 4px;
+    color: #d7c4ff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: 0;
+    font-weight: 800;
+}
+
+.section-label {
+    margin: 0 0 8px;
+    color: #d7c4ff;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========== BUTTONS ========== */
+button {
+    min-height: 46px;
+    border: 0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(135deg, #7c3cff, #b55cff);
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(124, 60, 255, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 0 12px;
+    line-height: 1.1;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(181, 92, 255, 0.36);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.clear-button {
+    min-height: 38px;
+    padding: 0 14px;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+}
+
+.clear-button:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+/* ========== CHAT MESSAGES ========== */
+.chat-box {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.28);
+}
+
+.message {
+    max-width: 78%;
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Bot Message Styling */
+.bot-message {
+    align-self: flex-start;
+    color: #f3efff;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* User Message Styling */
+.user-message {
+    align-self: flex-end;
+    color: #ffffff;
+    background: linear-gradient(135deg, #7c3cff, #b55cff);
+    box-shadow: 0 4px 12px rgba(124, 60, 255, 0.3);
+}
+
+/* Typing Indicator */
+.typing {
+    color: #d7c4ff;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Message Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== CHAT FORM ========== */
+.chat-form {
+    display: flex;
+    gap: 10px;
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.chat-form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.11);
+    transition: all 0.3s ease;
+}
+
+.chat-form input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(124, 60, 255, 0.5);
+    box-shadow: 0 0 12px rgba(124, 60, 255, 0.2);
+}
+
+.chat-form input::placeholder {
+    color: #c7b8df;
+}
+
+.chat-form button {
+    width: 112px;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablet/Medium Screens */
+@media (max-width: 900px) {
+    .app-shell {
+        height: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        gap: 16px;
+    }
+
+    .side-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile/Small Screens */
+@media (max-width: 700px) {
+    .page {
+        padding: 14px;
+    }
+
+    .app-shell {
+        min-height: auto;
+        gap: 14px;
+    }
+
+    .sidebar,
+    .chat-card {
+        padding: 18px;
+    }
+
+    .chat-card {
+        height: 620px;
+        min-height: 620px;
+    }
+
+    .chat-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .message {
+        max-width: 92%;
+    }
+
+    .chat-form {
+        flex-direction: column;
+    }
+
+    .chat-form button {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: clamp(24px, 5vw, 36px);
+    }
+
+    .side-buttons {
+        grid-template-columns: 1fr;
+    }
+}

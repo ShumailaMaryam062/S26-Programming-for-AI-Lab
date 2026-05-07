@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FindMate - Campus Lost & Found Assistant Chatbot">
+    <meta name="author" content="Campus IT Team">
+    <title>FindMate - Campus Lost & Found Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <!-- Main Container -->
+    <main class="page">
+        <!-- Application Shell -->
+        <section class="app-shell">
+            
+            <!-- SIDEBAR SECTION -->
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    <!-- Brand/Logo Section -->
+                    <div class="brand-box">
+                        <div class="logo">FM</div>
+                        <div>
+                            <p class="tagline">Campus Lost & Found</p>
+                            <h2>FindMate</h2>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Block -->
+                    <div class="sidebar-block">
+                        <p class="section-label">⚡ Quick Actions</p>
+                        <div class="side-buttons">
+                            <button onclick="sendQuickMessage('Lost item')">📍 Lost Item</button>
+                            <button onclick="sendQuickMessage('Found item')">✅ Found Item</button>
+                            <button onclick="sendQuickMessage('Contact office')">☎️ Contact Office</button>
+                            <button onclick="sendQuickMessage('Common locations')">🏢 Common Locations</button>
+                        </div>
+                    </div>
+
+                    <!-- Examples Block -->
+                    <div class="sidebar-block">
+                        <p class="section-label">📝 Examples</p>
+                        <div class="side-buttons">
+                            <button onclick="sendQuickMessage('I lost my ID card')">Lost ID Card</button>
+                            <button onclick="sendQuickMessage('I found a wallet')">Found Wallet</button>
+                            <button onclick="sendQuickMessage('Lost charger')">Lost Charger</button>
+                            <button onclick="sendQuickMessage('Lost book')">Lost Book</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safety Note (Sticky) -->
+                <div class="note-box">
+                    🔒 <strong>Safety Tip:</strong> Do not share personal details publicly. Submit found items to Security or Student Affairs.
+                </div>
+            </aside>
+
+            <!-- CHAT CARD SECTION -->
+            <section class="chat-card">
+                <div class="chat-header">
+                    <div>
+                        <p class="tagline">Campus Lost & Found Assistant</p>
+                        <h1>FindMate</h1>
+                    </div>
+                    <div class="header-actions">
+                        <span class="status">🟢 Online</span>
+                        <button class="clear-button" onclick="clearChat()" type="button">🗑️ Clear</button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div id="chatBox" class="chat-box">
+                    <div class="message bot-message">
+                        👋 Hi, I'm FindMate! Tell me what you lost or found. 
+                        <br><br>
+                        <strong>Example:</strong> "I lost my ID card" or "I found a wallet"
+                    </div>
+                </div>
+
+                <!-- Message Input Form -->
+                <form class="chat-form" onsubmit="sendMessage(event)">
+                    <input 
+                        id="messageInput" 
+                        type="text" 
+                        placeholder="Type your message..." 
+                        autocomplete="off"
+                        aria-label="Message input"
+                    >
+                    <button type="submit" aria-label="Send message">Send</button>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Get DOM Elements
+        const chatBox = document.getElementById("chatBox");
+        const messageInput = document.getElementById("messageInput");
+
+        function addMessage(text, className) {
+            const messageElement = document.createElement("div");
+            messageElement.className = "message " + className;
+            // Convert \n to actual line breaks
+            messageElement.textContent = text;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingElement = document.createElement("div");
+            typingElement.id = "typing";
+            typingElement.className = "message bot-message typing";
+            typingElement.textContent = "FindMate is typing...";
+            chatBox.appendChild(typingElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typingElement = document.getElementById("typing");
+            if (typingElement) {
+                typingElement.remove();
+            }
+        }
+
+        async function sendToBot(userText) {
+            addMessage(userText, "user-message");
+            showTyping();
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: userText })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                setTimeout(function () {
+                    hideTyping();
+                    addMessage(data.reply, "bot-message");
+                }, 500);
+
+            } catch (error) {
+                hideTyping();
+                console.error("Error:", error);
+                addMessage(
+                    "❌ Sorry, there was an error processing your message. Please try again.",
+                    "bot-message"
+                );
+            }
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const userText = messageInput.value.trim();
+
+            if (userText === "") {
+                return;
+            }
+
+            messageInput.value = "";
+            sendToBot(userText);
+        }
+
+        function sendQuickMessage(text) {
+            messageInput.value = text;
+            sendToBot(text);
+        }
+
+        function clearChat() {
+            chatBox.innerHTML = "";
+            addMessage(
+                "🗑️ Chat cleared. Tell me what you lost or found.",
+                "bot-message"
+            );
+        }
+
+        messageInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage(event);
+            }
+        });
+    </script>
+</body>
+</html>

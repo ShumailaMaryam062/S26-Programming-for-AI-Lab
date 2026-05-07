@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMate QnA Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page">
+        <section class="chat-card">
+            <div class="chat-header">
+                <div>
+                    <p class="tagline">MiniLM + FAISS Based QnA Bot</p>
+                    <h1>FindMate</h1>
+                </div>
+                <span class="status">Online</span>
+            </div>
+
+            <div class="quick-buttons">
+                <button onclick="sendQuickMessage('I lost my ID card')">Lost ID Card</button>
+                <button onclick="sendQuickMessage('I found a wallet')">Found Wallet</button>
+                <button onclick="sendQuickMessage('contact details')">Contact</button>
+                <button onclick="sendQuickMessage('common locations')">Locations</button>
+            </div>
+
+            <div id="chatBox" class="chat-box">
+                <div class="message bot-message">
+                    👋 Hi, I am FindMate. Ask me about lost or found campus items.
+                </div>
+            </div>
+
+            <form class="chat-form" onsubmit="sendMessage(event)">
+                <input id="messageInput" type="text" placeholder="Ask your question..." autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const messageInput = document.getElementById("messageInput");
+
+        function addMessage(text, className) {
+            const box = document.createElement("div");
+            box.className = "message " + className;
+            box.textContent = text;
+            chatBox.appendChild(box);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendToServer(text) {
+            addMessage(text, "user-message");
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({message: text})
+                });
+
+                const data = await response.json();
+                addMessage(data.reply, "bot-message");
+            } catch (error) {
+                addMessage("Sorry, server error occured. Please try again.", "bot-message");
+            }
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const text = messageInput.value.trim();
+            if (text === "") return;
+            messageInput.value = "";
+            sendToServer(text);
+        }
+
+        function sendQuickMessage(text) {
+            sendToServer(text);
+        }
+    </script>
+</body>
+</html>

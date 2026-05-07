@@ -1,0 +1,36 @@
+question,answer,category
+Hello,"👋 Hello! Welcome to FindMate. Tell me what you lost or found and I will guide you.",greeting
+Hi FindMate,"👋 Hi! I can help with lost items, found items, contact office and common places to check.",greeting
+I lost my ID card,"📋 Looking for your ID card? Check Student Affairs Office, Library Reception and Security Office. Report it quickly so it can be found faster.",lost_id
+My student card is missing,"📋 For a missing student card, visit Student Affairs Office first. Also check Library Reception and Security Office.",lost_id
+Where should I go for lost ID card,"📋 Please check Student Affairs Office, Library Reception and Security Office for your lost ID card.",lost_id
+I lost my wallet,"💳 Lost wallet? Check Security Office first, then Student Affairs Office, Cafeteria/Canteen and your last classroom.",lost_wallet
+My wallet is missing,"💳 If your wallet is missing, report it to Security Office quickly and also check Student Affairs Office.",lost_wallet
+I lost my charger,"🔌 Lost charger? Check Computer Lab 2, Computer Lab 4, lab staff and the Lost & Found desk.",lost_charger
+Where can I find my charger,"🔌 Chargers are commonly left in computer labs. Please check Lab 2, Lab 4 and ask the Lab In-charge.",lost_charger
+I lost my book,"📖 Lost book? Check Library counter, your last classroom and report it at Lost & Found desk.",lost_book
+My notebook is missing,"📖 For a missing notebook, check the classroom, library counter and Student Affairs Office.",lost_book
+I lost my keys,"🔑 Lost keys? Check Security Office and Main Gate desk because keys are usually submitted there.",lost_keys
+My keys are missing,"🔑 Please visit Security Office and describe your keychain to help staff identify it quickly.",lost_keys
+I lost my USB,"💾 Lost USB or pendrive? Check Computer Lab 2, Lab 4, Lab In-charge and Lost & Found desk.",lost_usb
+My pendrive is missing,"💾 USBs are commonly left near PCs. Please ask the lab staff and check the Lost & Found desk.",lost_usb
+I found an ID card,"✅ Great! Please submit the found ID card to Student Affairs Office or Library Reception. Do not share personal details publicly.",found_id
+I found a student card,"✅ Submit the student card to Student Affairs Office or Library Reception so it can be returned to the owner.",found_id
+I found a wallet,"✅ Wonderful! Please submit the wallet to Security Office or Student Affairs Office. Do not open it or share personal details.",found_wallet
+Someone left a wallet,"✅ Please give the wallet to Security Office or Student Affairs Office. They will contact the owner safely.",found_wallet
+I found a charger,"✅ Good find! Submit the charger to Computer Lab In-charge or Security Office and mention where you found it.",found_charger
+I found a book,"✅ Nice! Submit the book to Library Counter or Student Affairs Office. Mention the place where it was found.",found_book
+I found keys,"✅ Great! Please submit the keys to Security Office or Main Gate Desk. Describe the keychain if needed.",found_keys
+I found a USB,"✅ Excellent! Submit the USB/Pendrive to Computer Lab In-charge or Security Office. Do not open or use it.",found_usb
+Where is lost and found office,"📍 Lost & Found help is available at Student Affairs Office and Security Office.",contact
+Give me contact details,"☎️ Lost & Found Contact - Superior University Gold Campus\nOffice: Student Affairs Office / Security Office\nAddress: 6 KM, Main Raiwind Road, Lahore\nPhone: 042-38102223\nUAN: 042-111-000-078\nEmail: info@superior.edu.pk",contact
+What is the phone number,"☎️ Phone: 042-38102223\nUAN: 042-111-000-078",contact
+What is the email,"📧 Email: info@superior.edu.pk",contact
+Common locations to check,"🏢 Common places to check are Library Reception, Student Affairs Office, Security Office/Main Gate, Computer Labs, Classrooms and Cafeteria/Canteen.",locations
+Where should I check first,"🏢 First check the place where you last used the item, then Security Office, Student Affairs Office, Library and Cafeteria.",locations
+What items are mostly lost,"Most commonly lost items are ID Card, USB, Keys, Books, Chargers and Wallet.",info
+Safety tip for found items,"🔒 Safety Tip: If you find someone's item, submit it to Security or Student Affairs. Do not share personal details publicly.",safety
+Thank you,"✅ You're welcome! Feel free to ask anything about lost or found items.",thanks
+Bye,"Goodbye! I hope you find your item soon.",thanks
+I found something,"✅ Thank you for reporting it. Please submit the found item to Security Office or Student Affairs Office.",found_general
+I lost something,"📍 Please check Student Affairs Office, Security Office and the place where you last remember having it.",lost_general

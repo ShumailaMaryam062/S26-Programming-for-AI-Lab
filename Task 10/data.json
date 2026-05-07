@@ -1,0 +1,52 @@
+{
+  "bot_name": "FindMate",
+  "campus": "Superior University Gold Campus",
+  "contact": {
+    "office": "Student Affairs Office / Security Office",
+    "address": "6 KM, Main Raiwind Road, Lahore",
+    "phone": "042-38102223",
+    "uan": "042-111-000-078",
+    "email": "info@superior.edu.pk"
+  },
+  "common_locations": [
+    "📚 Library Reception",
+    "🏢 Student Affairs Office",
+    "🚨 Security Office / Main Gate",
+    "💻 Computer Labs (Lab 2, Lab 4)",
+    "🎓 Classrooms",
+    "🍽️ Cafeteria / Canteen"
+  ],
+  "most_lost_items": [
+    "ID Card",
+    "USB",
+    "Keys",
+    "Books",
+    "Chargers",
+    "Wallet"
+  ],
+  "safe_handling_tip": "If you find someone's item, submit it to Security or Student Affairs. Do not share personal details publicly.",
+  "replies": {
+    "greeting": "👋 Hello! Welcome to FindMate. How can I help you today? Are you looking for a lost item or reporting a found item?",
+    "empty": "Please enter your message. Tell me what you lost or found.",
+    "thanks": "✅ You're welcome! Feel free to ask if you need anything else. Have a great day!",
+    "default": "I didn't quite understand that. Please tell me what you lost or found, and I'll help you out!"
+  },
+  "lost_replies": {
+    "id_card": "📋 Looking for your ID card?\n\n✓ Check the Student Affairs Office\n✓ Check the Library Reception\n✓ Visit the Security Office\n\nTip: If you've lost it recently, contact Student Affairs immediately to report it.",
+    "wallet": "💳 Lost your wallet?\n\n✓ Check the Security Office first\n✓ Check the Student Affairs Office\n✓ Try the Cafeteria and Canteen\n✓ Check your last classroom\n\nTip: Contact the respective offices quickly to increase the chances of recovery.",
+    "charger": "🔌 Looking for a charger?\n\n✓ Check Computer Lab 2\n✓ Check Computer Lab 4\n✓ Visit the Lost & Found desk (Security/Student Affairs)\n✓ Ask lab staff - chargers are commonly left near computers\n\nTip: Tell them your charger model/type for easier identification.",
+    "book": "📖 Lost a book?\n\n✓ Check the Library counter\n✓ Check your last classroom\n✓ Report it at the Lost & Found desk\n\nTip: Provide the book title and author name for quick identification.",
+    "keys": "🔑 Looking for your keys?\n\n✓ Check the Security Office\n✓ Check the main gate desk\n✓ Keys are often submitted at Security\n\nTip: Describe your keychain to help staff identify it faster.",
+    "usb": "💾 Lost a USB/Pendrive?\n\n✓ Check Computer Lab 2 and Lab 4\n✓ Ask the Lab In-charge\n✓ Check the Lost & Found desk\n✓ USBs are commonly left near PCs\n\nTip: Provide any distinguishing features of your USB.",
+    "default": "📍 Item lost?\n\n✓ Check the Lost & Found office at Student Affairs\n✓ Visit the Security Office\n✓ Check the location where you last remember having it\n\nTip: Report it as soon as possible for better recovery chances!"
+  },
+  "found_replies": {
+    "id_card": "✅ Great! You found an ID card.\n\nPlease submit it to:\n📍 Student Affairs Office OR\n📍 Library Reception\n\nDo NOT share personal details publicly. These offices will help return it to the owner.",
+    "wallet": "✅ Wonderful! You found a wallet.\n\nPlease submit it to:\n📍 Security Office OR\n📍 Student Affairs Office\n\nDo NOT open it or share personal details. The offices will contact the owner.",
+    "charger": "✅ Good find! You found a charger.\n\nPlease submit it to:\n📍 Computer Lab In-charge OR\n📍 Security Office\n\nMention where you found it to help identify the owner.",
+    "book": "✅ Nice! You found a book.\n\nPlease submit it to:\n📍 Library Counter OR\n📍 Student Affairs Office\n\nInclude the book title and any details you noticed.",
+    "keys": "✅ Great! You found keys.\n\nPlease submit them to:\n📍 Security Office OR\n📍 Main Gate Desk\n\nDescribe any distinguishing features on the keychain.",
+    "usb": "✅ Excellent! You found a USB/Pendrive.\n\nPlease submit it to:\n📍 Computer Lab In-charge OR\n📍 Security Office\n\nDo NOT use it. Let the office handle finding the owner.",
+    "default": "✅ Thank you for finding and reporting this item!\n\nPlease submit the found item to:\n📍 Security Office OR\n📍 Student Affairs Office\n\nThey will ensure it gets back to its owner. Appreciate your honesty!"
+  }
+}

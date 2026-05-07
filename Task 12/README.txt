@@ -1,6 +1,6 @@
-================================================================================
+
     FINDMATE - CAMPUS LOST & FOUND QnA CHATBOT
-================================================================================
+
 
 PROJECT DESCRIPTION:
 FindMate is an intelligent Q&A chatbot that helps campus users find lost items
